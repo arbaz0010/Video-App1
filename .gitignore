@@ -1,0 +1,22 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+.idea/
+.kotlin/
+*.iml
+
+# macOS
+.DS_Store
+
+# Local
+local.properties
+
+# Xcode
+xcuserdata/
+*.xcworkspace/xcuserdata/
+
+# Kotlin/Native
+.konan/
