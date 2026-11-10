@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import org.example.app.feature.videolist.ui.VideoListScreen
+import org.example.app.feature.videoupload.ui.VideoUploadScreen
 import org.example.app.navigation.AppRoute
 
 @Composable
@@ -22,7 +23,18 @@ fun App() {
                     navController.navigate(AppRoute.VideoPlayer(videoId))
                 },
                 onUploadClick = {
-                    // بعد میں اپلوڈ اسکرین پر جائیں گے
+                    navController.navigate(AppRoute.VideoUpload)
+                }
+            )
+        }
+        
+        composable<AppRoute.VideoUpload> {
+            VideoUploadScreen(
+                onUploadComplete = {
+                    navController.popBackStack()
+                },
+                onBack = {
+                    navController.popBackStack()
                 }
             )
         }
@@ -30,7 +42,6 @@ fun App() {
         composable<AppRoute.VideoPlayer> { backStackEntry ->
             val route = backStackEntry.toRoute<AppRoute.VideoPlayer>()
             // بعد میں VideoPlayerScreen بنائیں گے
-            // VideoPlayerScreen(videoId = route.videoId)
         }
     }
 }
