@@ -35,7 +35,7 @@ actual fun VideoPlayerView(
         }
     }
     
-    LaunchedEffect(exoPlayer) {
+        LaunchedEffect(exoPlayer) {
         exoPlayer.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 when (playbackState) {
@@ -53,9 +53,12 @@ actual fun VideoPlayerView(
             }
         })
         
-        while (true) {
-            kotlinx.coroutines.delay(500)
-            onCurrentTimeUpdate(exoPlayer.currentPosition / 1000)
+        // یہ launch بلاک شامل کریں تاکہ delay کام کرے
+        kotlinx.coroutines.launch {
+            while (true) {
+                kotlinx.coroutines.delay(500)
+                onCurrentTimeUpdate(exoPlayer.currentPosition / 1000)
+            }
         }
     }
     
