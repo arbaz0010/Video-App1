@@ -25,7 +25,7 @@ struct VideoListView: View {
                 } else {
                     List(videos) { video in
                         NavigationLink(destination: VideoPlayerView(videoId: video.id)) {
-                            VideoRow(video: video)
+                         VideoRow(video: video)
                         }
                     }
                     .refreshable {
