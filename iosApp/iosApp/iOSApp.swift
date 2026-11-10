@@ -4,12 +4,14 @@ import Shared
 @main
 struct iOSApp: App {
     init() {
-        KoinHelper.shared.doInitKoin()
+        KoinHelperKt.doInitKoin()
     }
-
+    
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            NavigationStack {
+                VideoListView()
+            }
         }
     }
 }
