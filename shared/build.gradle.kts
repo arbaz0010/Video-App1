@@ -33,11 +33,16 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.kotlinx.coroutines.test)
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
         }
 
         androidMain.dependencies {
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
+            implementation("androidx.activity:activity-compose:1.9.0")
+            implementation("androidx.media3:media3-exoplayer:1.3.1")
+            implementation("androidx.media3:media3-ui:1.3.1")
         }
 
         jvmMain.dependencies {
