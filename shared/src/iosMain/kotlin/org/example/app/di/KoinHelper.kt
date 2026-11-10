@@ -2,8 +2,10 @@ package org.example.app.di
 
 import org.example.app.core.di.initKoin
 import org.example.app.feature.home.presentation.HomeStore
+import org.example.app.feature.videolist.presentation.VideoListStore
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
+import org.koin.mp.KoinPlatform
 
 /**
  * Bridge from Swift → Kotlin DI graph. SKiE generates Swift-friendly accessors
@@ -12,4 +14,7 @@ import org.koin.core.component.get
 object KoinHelper : KoinComponent {
     val homeStore: HomeStore get() = get()
     fun doInitKoin() = initKoin()
+
+    val videoListStore: VideoListStore 
+    get() = KoinPlatform.getKoin().get()
 }
