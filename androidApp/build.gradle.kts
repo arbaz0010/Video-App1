@@ -33,4 +33,6 @@ dependencies {
     implementation(project(":composeUI"))
     implementation(project(":shared"))
     implementation(libs.androidx.activityCompose)
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.ui)
 }
