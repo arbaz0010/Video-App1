@@ -1,22 +1,19 @@
 package org.example.app.core.di
 
 import org.example.app.feature.video.di.videoModule
-import org.example.app.feature.videoupload.di.videoUploadModule
 import org.example.app.feature.videolist.di.videoListModule
+import org.example.app.feature.videoupload.di.videoUploadModule
+import org.example.app.feature.videoplayer.di.videoPlayerModule
 import org.koin.core.context.startKoin
-import org.koin.dsl.module
-
-val coreModule = module {
-}
 
 fun initKoin() {
     startKoin {
         modules(
-            coreModule,
+            coreModule,          // یہ پہلے سے CoreModule.kt میں موجود ہے
             videoModule,
             videoListModule,
-            videouploadModule,
-            homeModule,
+            videoUploadModule,   // چیک کریں کہ 'U' بڑا ہے (camelCase)
+            videoPlayerModule
         )
     }
 }
