@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import org.example.app.feature.videolist.ui.VideoListScreen
 import org.example.app.feature.videoupload.ui.VideoUploadScreen
+import org.example.app.feature.videoplayer.ui.VideoPlayerScreen
 import org.example.app.navigation.AppRoute
 
 @Composable
@@ -41,7 +42,12 @@ fun App() {
         
         composable<AppRoute.VideoPlayer> { backStackEntry ->
             val route = backStackEntry.toRoute<AppRoute.VideoPlayer>()
-            // بعد میں VideoPlayerScreen بنائیں گے
+            VideoPlayerScreen(
+                videoId = route.videoId,
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }
