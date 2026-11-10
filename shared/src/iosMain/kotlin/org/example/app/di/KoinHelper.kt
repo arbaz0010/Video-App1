@@ -1,20 +1,15 @@
-package org.example.app.di
+package org.example.app.ios
 
-import org.example.app.core.di.initKoin
-import org.example.app.feature.home.presentation.HomeStore
 import org.example.app.feature.videolist.presentation.VideoListStore
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
+import org.example.app.feature.videoupload.presentation.VideoUploadStore
 import org.koin.mp.KoinPlatform
 
-/**
- * Bridge from Swift → Kotlin DI graph. SKiE generates Swift-friendly accessors
- * for everything exposed here.
- */
-object KoinHelper : KoinComponent {
-    val homeStore: HomeStore get() = get()
-    fun doInitKoin() = initKoin()
-
+object KoinHelper {
+    val shared = KoinHelper
+    
     val videoListStore: VideoListStore 
-    get() = KoinPlatform.getKoin().get()
+        get() = KoinPlatform.getKoin().get()
+    
+    val videoUploadStore: VideoUploadStore 
+        get() = KoinPlatform.getKoin().get()
 }
