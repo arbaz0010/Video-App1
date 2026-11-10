@@ -1,9 +1,9 @@
 package org.example.app.feature.videoupload.presentation
 
+import kotlinx.datetime.Clock
 import org.example.app.core.mvi.MviStore
 import org.example.app.feature.video.data.Video
 import org.example.app.feature.video.data.VideoRepository
-import kotlinx.datetime.Clock
 
 data class VideoUploadState(
     val title: String = "",
@@ -33,21 +33,11 @@ class VideoUploadStore(
     
     override suspend fun handleIntent(state: VideoUploadState, intent: VideoUploadIntent) {
         when (intent) {
-            is VideoUploadIntent.UpdateTitle -> {
-                updateState { copy(title = intent.title) }
-            }
-            is VideoUploadIntent.UpdateDescription -> {
-                updateState { copy(description = intent.description) }
-            }
-            is VideoUploadIntent.FileSelected -> {
-                updateState { copy(selectedFilePath = intent.filePath) }
-            }
-            is VideoUploadIntent.UploadVideo -> {
-                uploadVideo(state)
-            }
-            is VideoUploadIntent.Reset -> {
-                updateState { VideoUploadState() }
-            }
+            is VideoUploadIntent.UpdateTitle -> updateState { copy(title = intent.title) }
+            is VideoUploadIntent.UpdateDescription -> updateState { copy(description = intent.description) }
+            is VideoUploadIntent.FileSelected -> updateState { copy(selectedFilePath = intent.filePath) }
+            is VideoUploadIntent.UploadVideo -> uploadVideo(state)
+            is VideoUploadIntent.Reset -> updateState { VideoUploadState() }
         }
     }
     
@@ -71,11 +61,10 @@ class VideoUploadStore(
                 description = state.description,
                 filePath = state.selectedFilePath,
                 thumbnailPath = null,
-                duration = 0, // بعد میں فائل سے نکالیں گے
+                duration = 0,
                 uploadDate = Clock.System.now().toEpochMilliseconds()
             )
             
-            // فی الحال خالی bytes - اصل میں فائل پڑھ کر بھیجیں گے
             val result = repository.uploadVideo(video, ByteArray(0))
             
             result.fold(
