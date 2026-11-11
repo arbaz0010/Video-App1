@@ -11,7 +11,7 @@ kotlin {
 
     // تمام اینڈرائیڈ اور SDK کی سیٹنگز یہاں اندر آئیں گی
     androidTarget {
-        namespace = "org.example.app.androidApp"
+        namespace = "org.example.app"
         compileSdk = 36
         minSdk = 23
 
