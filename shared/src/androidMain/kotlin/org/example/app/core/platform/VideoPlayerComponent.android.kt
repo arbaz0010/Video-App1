@@ -9,7 +9,6 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
-import org.example.app.core.platform.VideoPlayerView as ExpectedVideoPlayerView
 
 @Composable
 actual fun VideoPlayerView(
@@ -35,7 +34,8 @@ actual fun VideoPlayerView(
         }
     }
     
-        LaunchedEffect(exoPlayer) {
+    LaunchedEffect(exoPlayer) {
+        // 1. Player Listener
         exoPlayer.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 when (playbackState) {
@@ -53,12 +53,10 @@ actual fun VideoPlayerView(
             }
         })
         
-        // یہ launch بلاک شامل کریں تاکہ delay کام کرے
-        kotlinx.coroutines.launch {
-            while (true) {
-                kotlinx.coroutines.delay(500)
-                onCurrentTimeUpdate(exoPlayer.currentPosition / 1000)
-            }
+        // 2. Time Update Loop (بغیر launch کے، براہ راست LaunchedEffect کے اندر)
+        while (true) {
+            kotlinx.coroutines.delay(500)
+            onCurrentTimeUpdate(exoPlayer.currentPosition / 1000)
         }
     }
     
