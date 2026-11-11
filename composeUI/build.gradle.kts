@@ -1,60 +1,63 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose.multiplatform)
-    alias(libs.plugins.android.kmp.library)
-    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
-    jvmToolchain(17)
-
-    androidLibrary {
-        namespace = "org.example.app"
-        compileSdk = 36
-        minSdk = 23
-
-        // جاوا 17 کا ورژن سیٹ کرنے کا درست KMP طریقہ یہ ہے:
-        compileSdk.set(36) // اگر compileSdk اوپر کام نہ کرے تو یہ طریقہ بھی استمعال ہوتا ہے
+    androidTarget {
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_17)
+                }
+            }
+        }
     }
     
-    jvm()
+    jvm("desktop")
 
     sourceSets {
-        commonMain.dependencies {
-            implementation(project(":shared"))
-
-            api(libs.compose.runtime)
-            api(libs.compose.ui)
-            api(libs.compose.foundation)
-            api(libs.compose.resources)
-            api(libs.compose.ui.tooling.preview)
-            api(libs.compose.material3)
-
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime)
-            implementation(libs.coil)
-            implementation(libs.coil.network.ktor)
-            implementation(libs.icons.lucide)
-
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-        }
-
-        commonTest.dependencies {
-            implementation(kotlin("test"))
-            implementation(libs.compose.ui.test)
-            implementation(libs.kotlinx.coroutines.test)
-        }
-
-        jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
+        val commonMain by getting {
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(libs.kotlinx.serialization.json)
+            }
         }
         
         val androidMain by getting {
             dependencies {
-                implementation(libs.compose.ui.tooling)
+                implementation("androidx.activity:activity-compose:1.9.0")
+                implementation("androidx.compose.ui:ui-tooling-preview:1.6.8")
+                debugImplementation("androidx.compose.ui:ui-tooling:1.6.8")
             }
         }
+        
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
+        }
+    }
+}
+
+android {
+    namespace = "org.example.app" 
+    compileSdk = 34
+    
+    defaultConfig {
+        minSdk = 24
+    }
+    
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
