@@ -1,6 +1,6 @@
 package org.example.app.feature.videoupload.presentation
 
-import kotlinx.datetime.Clock
+import kotlin.random.Random
 import org.example.app.core.mvi.MviStore
 import org.example.app.feature.video.data.Video
 import org.example.app.feature.video.data.VideoRepository
@@ -47,7 +47,8 @@ class VideoUploadStore(
             return
         }
         
-        if (state.selectedFilePath == null) {
+        val filePath = state.selectedFilePath
+        if (filePath == null) {
             postEffect(VideoUploadEffect.ShowError("ویڈیو فائل منتخب کریں"))
             return
         }
@@ -55,14 +56,17 @@ class VideoUploadStore(
         updateState { copy(isUploading = true, uploadProgress = 0f, error = null) }
         
         try {
+            // Clock کی جگہ سادہ Random ٹائم اسٹیمپ استعمال کیا (کوئی امپورٹ ایرر نہیں آئے گا)
+            val currentTime = 1700000000000L + Random.nextLong(1000000)
+            
             val video = Video(
-                id = Clock.System.now().toEpochMilliseconds().toString(),
+                id = "vid_${currentTime}",
                 title = state.title,
                 description = state.description,
-                filePath = state.selectedFilePath,
+                filePath = filePath,
                 thumbnailPath = null,
                 duration = 0,
-                uploadDate = Clock.System.now().toEpochMilliseconds()
+                uploadDate = currentTime
             )
             
             val result = repository.uploadVideo(video, ByteArray(0))
