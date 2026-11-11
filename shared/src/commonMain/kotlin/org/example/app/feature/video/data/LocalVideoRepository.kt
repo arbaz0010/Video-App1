@@ -1,9 +1,11 @@
 package org.example.app.feature.video.data
 
 import kotlinx.coroutines.delay
-import kotlinx.datetime.Clock
 
 class LocalVideoRepository : VideoRepository {
+    
+    // ٹیسٹ کے لیے فکسڈ ٹائم اسٹیمپ (نومبر 2023)
+    private val baseTime = 1700000000000L 
     
     private val videos = mutableListOf(
         Video(
@@ -13,7 +15,7 @@ class LocalVideoRepository : VideoRepository {
             filePath = "/path/to/video1.mp4",
             thumbnailPath = "/path/to/thumb1.jpg",
             duration = 125,
-            uploadDate = Clock.System.now().toEpochMilliseconds() - 86400000 // 1 دن پہلے
+            uploadDate = baseTime - 86400000 // 1 دن پہلے
         ),
         Video(
             id = "2",
@@ -22,7 +24,7 @@ class LocalVideoRepository : VideoRepository {
             filePath = "/path/to/video2.mp4",
             thumbnailPath = null,
             duration = 340,
-            uploadDate = Clock.System.now().toEpochMilliseconds() - 172800000 // 2 دن پہلے
+            uploadDate = baseTime - 172800000 // 2 دن پہلے
         )
     )
     
