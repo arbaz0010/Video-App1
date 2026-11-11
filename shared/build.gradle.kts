@@ -43,6 +43,8 @@ kotlin {
             implementation("androidx.activity:activity-compose:1.9.0")
             implementation("androidx.media3:media3-exoplayer:1.3.1")
             implementation("androidx.media3:media3-ui:1.3.1")
+            implementation("androidx.compose.runtime:runtime:1.6.8")
+            implementation("androidx.compose.ui:ui:1.6.8")
         }
 
         jvmMain.dependencies {
