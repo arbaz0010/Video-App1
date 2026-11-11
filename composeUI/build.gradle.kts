@@ -9,18 +9,7 @@ plugins {
 kotlin {
     jvmToolchain(17)
 
-    // تمام اینڈرائیڈ اور SDK کی سیٹنگز یہاں اندر آئیں گی
-    androidTarget {
-        namespace = "org.example.app.androidApp"
-        compileSdk = 36
-        minSdk = 23
-
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
-        }
-    }
-    
+    androidTarget()
     jvm()
 
     sourceSets {
@@ -53,10 +42,24 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
         }
+        
+        // اینڈرائیڈ کی مخصوص ڈیپینڈেন্সیاں اور ٹولنگ یہاں آئیں گی
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.compose.ui.tooling)
+            }
+        }
     }
 }
 
-dependencies {
-    // KMP پروجیکٹ میں debugImplementation کی جگہ androidDebugImplementation استعمال ہوتا ہے
-    androidDebugImplementation(libs.compose.ui.tooling)
+// android.kmp.library پلگ ان کے لیے اینڈرائیڈ کی سیٹنگز اس بلاک میں آتی ہیں
+androidLibrary {
+    namespace = "org.example.app"
+    compileSdk = 36
+    minSdk = 23
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 }
