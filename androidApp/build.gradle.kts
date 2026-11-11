@@ -2,7 +2,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android) // <-- یہ پلگ ان یہاں لازمی شامل کریں
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler) // Required if MainActivity calls setContent { }
 }
 
 android {
@@ -18,6 +19,10 @@ android {
         versionName = "1.0.0"
     }
 
+    buildFeatures {
+        compose = true // Enables Jetpack Compose in androidApp
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -25,7 +30,9 @@ android {
 }
 
 kotlin {
-    compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 dependencies {
@@ -34,4 +41,7 @@ dependencies {
     implementation(libs.androidx.activityCompose)
     implementation(libs.media3.exoplayer)
     implementation(libs.media3.ui)
+
+    // Tooling belongs in androidApp's debugImplementation, not in KMP modules
+    debugImplementation(libs.compose.ui.tooling)
 }
