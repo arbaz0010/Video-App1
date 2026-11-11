@@ -9,12 +9,15 @@ plugins {
 kotlin {
     jvmToolchain(17)
 
-    // Replaces androidTarget() and top-level android {}
     androidLibrary {
         namespace = "org.example.app.composeui"
         compileSdk = 36
         minSdk = 23
-        androidResources.enable = true
+        
+        // Fixed: Use block syntax instead of property assignment
+        androidResources {
+            enable = true
+        }
     }
 
     jvm("desktop")
