@@ -9,7 +9,15 @@ plugins {
 kotlin {
     jvmToolchain(17)
 
-    androidTarget()
+    androidLibrary {
+        namespace = "org.example.app"
+        compileSdk = 36
+        minSdk = 23
+
+        // جاوا 17 کا ورژن سیٹ کرنے کا درست KMP طریقہ یہ ہے:
+        compileSdk.set(36) // اگر compileSdk اوپر کام نہ کرے تو یہ طریقہ بھی استمعال ہوتا ہے
+    }
+    
     jvm()
 
     sourceSets {
@@ -43,23 +51,10 @@ kotlin {
             implementation(compose.desktop.currentOs)
         }
         
-        // اینڈرائیڈ کی مخصوص ڈیپینڈেন্সیاں اور ٹولنگ یہاں آئیں گی
         val androidMain by getting {
             dependencies {
                 implementation(libs.compose.ui.tooling)
             }
         }
-    }
-}
-
-// android.kmp.library پلگ ان کے لیے اینڈرائیڈ کی سیٹنگز اس بلاک میں آتی ہیں
-androidLibrary {
-    namespace = "org.example.app"
-    compileSdk = 36
-    minSdk = 23
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 }
